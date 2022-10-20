@@ -19,7 +19,7 @@ jobs:
         run: docker login -u $DOCKER_USER -p $DOCKER_PASS
 
       - name: Build master peerswap
-        run: docker build . -t vilm3r/peerswap:latest --build-arg COMMIT=master
+        run: docker buildx build . -t vilm3r/peerswap:latest --build-arg COMMIT=master --platform linux/amd64,linux/arm64,linux/arm/v7
 
       - name: Push latest to Dockerhub
         run: docker push vilm3r/peerswap:latest
@@ -28,7 +28,7 @@ jobs:
         run: echo "recent_tag=$(curl https://api.github.com/repos/ElementsProject/peerswap/releases/latest -s | grep tag_name | grep -o "v[0-9,.]*")" >> $GITHUB_ENV
 
       - name: Build most recent tag
-        run: docker build . -t vilm3r/peerswap:$recent_tag --build-arg COMMIT=$recent_tag
+        run: docker buildx build . -t vilm3r/peerswap:$recent_tag --build-arg COMMIT=$recent_tag --platform linux/amd64,linux/arm64,linux/arm/v7
 
       - name: Push most recent tag to Dockerhub
         run: docker push vilm3r/peerswap:$recent_tag
