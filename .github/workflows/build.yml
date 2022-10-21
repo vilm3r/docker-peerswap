@@ -11,27 +11,27 @@ jobs:
       DOCKER_USER: ${{ secrets.DOCKER_USER }}
       DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
 
-      - name: Login to Dockerhub
-        run: docker login -u $DOCKER_USER -p $DOCKER_PASS
+    - name: Login to Dockerhub
+      run: docker login -u $DOCKER_USER -p $DOCKER_PASS
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
 
-      - name: Build and push
-        uses: docker/build-push-action@v3
-        with:
-          build-args: master
-          push: true
-          tags: vilm3r/peerswap:latest
-          platform: linux/amd64,linux/arm64,linux/arm/v7
+    - name: Build and push
+      uses: docker/build-push-action@v3
+      with:
+        build-args: master
+        push: true
+        tags: vilm3r/peerswap:latest
+        platform: linux/amd64,linux/arm64,linux/arm/v7
 
-      - name: Get most recent tag
-        run: echo "recent_tag=$(curl https://api.github.com/repos/ElementsProject/peerswap/releases/latest -s | grep tag_name | grep -o "v[0-9,.]*")" >> $GITHUB_ENV
+    - name: Get most recent tag
+      run: echo "recent_tag=$(curl https://api.github.com/repos/ElementsProject/peerswap/releases/latest -s | grep tag_name | grep -o "v[0-9,.]*")" >> $GITHUB_ENV
 
-      - name: Build and push
-        uses: docker/build-push-action@v3
-        with:
-          build-args: "${{recent_tag}}"
-          push: true
-          tags: "vilm3r/peerswap:${{recent_tag}}"
-          platform: linux/amd64,linux/arm64,linux/arm/v7
+    - name: Build and push
+      uses: docker/build-push-action@v3
+      with:
+        build-args: "${{recent_tag}}"
+        push: true
+        tags: "vilm3r/peerswap:${{recent_tag}}"
+        platform: linux/amd64,linux/arm64,linux/arm/v7
