@@ -32,7 +32,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
-          build-args: "${{recent_tag}}"
+          build-args: $recent_tag
           push: true
-          tags: "vilm3r/peerswap:${{recent_tag}}"
+          tags: vilm3r/peerswap:$recent_tag
           platform: linux/amd64,linux/arm64,linux/arm/v7
