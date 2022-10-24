@@ -30,7 +30,7 @@ jobs:
         run: echo "recent_tag=$(curl https://api.github.com/repos/ElementsProject/peerswap/releases/latest -s | grep tag_name | grep -o "v[0-9,.]*")" >> $GITHUB_ENV
 
       - name: Build and push
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v2
         with:
           build-args: $recent_tag
           push: true
